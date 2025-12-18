@@ -1,11 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <div class="mb-8 text-center">
-      <h1 class="text-5xl font-extrabold text-red-800 mb-4">My Learning Journey</h1>
-      <p class="text-orange-700 font-medium">Track and organize your coding lessons</p>
-    </div>
-
-    <div class="mb-6">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h2 class="text-3xl font-bold text-orange-900">My Lessons</h2>
+        <p class="text-orange-700 font-medium">Track and organize your coding lessons</p>
+      </div>
       <button
         @click="$emit('add-lesson')"
         class="bg-orange-500 hover:bg-orange-600 text-orange-50 font-bold rounded-xl px-6 py-3 shadow-md hover:shadow-lg transition-all"
@@ -14,7 +13,7 @@
       </button>
     </div>
 
-    <div v-if="lessons.length === 0" class="text-center py-12">
+    <div v-if="lessons.length === 0" class="text-center py-12 bg-orange-50 bg-opacity-50 rounded-2xl">
       <p class="text-orange-700 text-lg">No lessons yet. Add your first lesson to start learning!</p>
     </div>
 

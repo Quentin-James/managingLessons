@@ -60,11 +60,12 @@ src/
 
 ## Roadmap 🗺️
 
-- [ ] Implement local storage persistence
-- [ ] Add note-taking module
+- [x] Implement note-taking module with localStorage persistence
+- [ ] Implement local storage persistence for lessons
 - [ ] Add filtering and sorting capabilities
-- [ ] Implement progress tracking
+- [ ] Implement progress tracking for lessons
 - [ ] Add authentication and user management
+- [ ] Export/import data functionality
 
 ## Recommended IDE Setup
 
