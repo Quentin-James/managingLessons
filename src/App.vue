@@ -8,7 +8,7 @@ import { useLessons } from './composables/useLessons'
 import { useNotes } from './composables/useNotes'
 
 // Lessons
-const { lessons, createLesson, updateLesson, deleteLesson } = useLessons()
+const { lessons, createLesson, updateLesson, deleteLesson, toggleCompleted } = useLessons()
 const showLessonForm = ref(false)
 const editingLesson = ref(null)
 
@@ -49,6 +49,10 @@ const handleDeleteLesson = (lessonId) => {
   if (confirm('Are you sure you want to remove this lesson from your learning journey?')) {
     deleteLesson(lessonId)
   }
+}
+
+const handleToggleCompleted = (lessonId) => {
+  toggleCompleted(lessonId)
 }
 
 // Note handlers
@@ -119,12 +123,17 @@ const handleDeleteNote = (noteId) => {
       </div>
 
       <!-- Content -->
-      <div v-show="activeTab === 'lessons'">
+      <div v-show="activeTab === 'lessons'" class="space-y-6">
+        <!-- Progress Tracker -->
+        <ProgressTracker :lessons="lessons" />
+
+        <!-- Lessons List -->
         <LessonList
           :lessons="lessons"
           @add-lesson="openAddLessonForm"
           @edit-lesson="openEditLessonForm"
           @delete-lesson="handleDeleteLesson"
+          @toggle-completed="handleToggleCompleted"
         />
       </div>
 

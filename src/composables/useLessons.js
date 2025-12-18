@@ -106,6 +106,19 @@ export function useLessons() {
     return false
   }
 
+  // Toggle completed status
+  const toggleCompleted = (id) => {
+    const index = lessons.value.findIndex(lesson => lesson.id === id)
+    if (index !== -1) {
+      lessons.value[index].completed = !lessons.value[index].completed
+      lessons.value[index].completedAt = lessons.value[index].completed
+        ? new Date().toISOString()
+        : null
+      return lessons.value[index]
+    }
+    return null
+  }
+
   // Initialize
   loadLessons()
 
@@ -114,7 +127,8 @@ export function useLessons() {
     createLesson,
     getLessonById,
     updateLesson,
-    deleteLesson
+    deleteLesson,
+    toggleCompleted
   }
 }
 

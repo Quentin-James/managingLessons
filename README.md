@@ -8,6 +8,11 @@ A personal web application to track and organize your coding lessons and learnin
 - **Track Your Lessons**: Add, edit, and remove coding lessons from your personal learning journey
 - **Organize by Difficulty**: Categorize lessons as Beginner, Intermediate, or Advanced
 - **Track Time**: Monitor how much time each lesson takes
+- **Mark as Done**: Complete lessons with a single click and track completion dates
+- **Visual Progress Indicators**: Completed lessons show with green styling, checkmarks, and timestamps
+- **Search Functionality**: Real-time search by title, description, or difficulty
+- **Smart Organization**: Active and completed lessons displayed in separate sections
+- **Progress Tracking**: Visual dashboard showing completion percentage, statistics, and difficulty breakdown
 - **localStorage Persistence**: All lessons are automatically saved
 
 ### Notes with Integrated Code Editor
@@ -21,6 +26,7 @@ A personal web application to track and organize your coding lessons and learnin
 - **Rich Metadata**: Add titles, content, categories, and tags to your notes
 - **Auto-Save**: Notes are automatically saved to localStorage
 - **Code Snippets**: Optional code examples with language-specific syntax highlighting
+- **Search Functionality**: Real-time search by title, content, tags, or category
 
 ### UI/UX
 - **Tab Navigation**: Switch easily between Lessons and Notes

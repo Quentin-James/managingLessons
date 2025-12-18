@@ -9,10 +9,13 @@ This document tracks all development tasks for the My Learning Journey applicati
 - [X] Implement a note-taking module — Created useNotes composable with full CRUD operations and localStorage persistence, NoteCard/NoteForm/NotesList components, integrated tab navigation in App.vue. Notes support title, content, timestamp, tags, and categories. (Completed 2025-12-18)
 - [X] Implement coding terminal inside notes for making coding notes — Integrated CodeMirror 6 editor with syntax highlighting for 19 programming languages: JavaScript, TypeScript, React (JSX), Angular, Python, Java, C#, C++, Rust, Go, PHP, HTML, CSS, Vue, Sass/SCSS, JSON, XML, SQL, and Markdown. Notes now support optional code snippets with language selection. Updated NoteCard to display code snippets. (Completed 2025-12-18)
 - [X] Implement local storage persistence (localStorage) for lessons and notes — Both useLessons and useNotes composables now auto-save to localStorage with reactive watch. Data persists across browser sessions. (Completed 2025-12-18)
+- [X] Implement button that marks lessons as done — Added toggleCompleted function to useLessons, updated LessonCard with "Mark as Done/Undone" button, visual indicators (green border, checkmark badge, strikethrough), and completion timestamp. Completed lessons show when they were finished. Fixed missing import and updated button styling to follow guide. (Completed 2025-12-18)
+- [X] Implement lesson search and notes search, plus put in a reserved place the lesson done — Created SearchBar component, added search functionality to LessonList and NotesList with real-time filtering by title, description, difficulty, tags, and category. Separated active and completed lessons into distinct sections with counters. (Completed 2025-12-18)
+- [X] Implement progress tracking for lessons — Created ProgressTracker component with overall completion percentage, statistics cards (total, completed, active, total time), and difficulty breakdown with visual progress bars. Integrated into Lessons tab. (Completed 2025-12-18)
 
 ## To Do
-- [ ] Implement progress tracking for lessons
 - [ ] Add authentication and user management
-- [ ] implement button that mark as done when a lesson is done
- 
+
+
+
 
