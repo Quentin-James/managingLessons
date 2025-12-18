@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="mb-8 text-center">
-      <h1 class="text-5xl font-extrabold text-red-800 mb-4">Lesson Manager</h1>
-      <p class="text-orange-700 font-medium">Manage your coding lessons efficiently</p>
+      <h1 class="text-5xl font-extrabold text-red-800 mb-4">My Learning Journey</h1>
+      <p class="text-orange-700 font-medium">Track and organize your coding lessons</p>
     </div>
 
     <div class="mb-6">
@@ -15,7 +15,7 @@
     </div>
 
     <div v-if="lessons.length === 0" class="text-center py-12">
-      <p class="text-orange-700 text-lg">No lessons yet. Create your first lesson!</p>
+      <p class="text-orange-700 text-lg">No lessons yet. Add your first lesson to start learning!</p>
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -23,7 +23,8 @@
         v-for="lesson in lessons"
         :key="lesson.id"
         :lesson="lesson"
-        @click="$emit('select-lesson', lesson)"
+        @edit="$emit('edit-lesson', $event)"
+        @delete="$emit('delete-lesson', $event)"
       />
     </div>
   </div>
@@ -39,6 +40,6 @@ defineProps({
   }
 })
 
-defineEmits(['add-lesson', 'select-lesson'])
+defineEmits(['add-lesson', 'edit-lesson', 'delete-lesson'])
 </script>
 

@@ -1,40 +1,44 @@
 <script setup>
 import { ref } from 'vue'
 import LessonList from './components/LessonList.vue'
+import LessonForm from './components/LessonForm.vue'
+import { useLessons } from './composables/useLessons'
 
-// Sample lessons data
-const lessons = ref([
-  {
-    id: 1,
-    title: 'Introduction to JavaScript',
-    description: 'Learn the basics of JavaScript programming',
-    duration: 45,
-    difficulty: 'Beginner'
-  },
-  {
-    id: 2,
-    title: 'Vue.js Fundamentals',
-    description: 'Master the fundamentals of Vue.js framework',
-    duration: 60,
-    difficulty: 'Intermediate'
-  },
-  {
-    id: 3,
-    title: 'Advanced TypeScript',
-    description: 'Deep dive into TypeScript advanced features',
-    duration: 90,
-    difficulty: 'Advanced'
-  }
-])
+const { lessons, createLesson, updateLesson, deleteLesson } = useLessons()
 
-const addLesson = () => {
-  // Placeholder for add lesson functionality
-  console.log('Add lesson clicked')
+const showForm = ref(false)
+const editingLesson = ref(null)
+
+const openAddForm = () => {
+  editingLesson.value = null
+  showForm.value = true
 }
 
-const selectLesson = (lesson) => {
-  // Placeholder for select lesson functionality
-  console.log('Selected lesson:', lesson)
+const openEditForm = (lesson) => {
+  editingLesson.value = lesson
+  showForm.value = true
+}
+
+const closeForm = () => {
+  showForm.value = false
+  editingLesson.value = null
+}
+
+const handleSaveLesson = (lessonData) => {
+  if (editingLesson.value) {
+    // Update existing lesson
+    updateLesson(editingLesson.value.id, lessonData)
+  } else {
+    // Create new lesson
+    createLesson(lessonData)
+  }
+  closeForm()
+}
+
+const handleDeleteLesson = (lessonId) => {
+  if (confirm('Are you sure you want to remove this lesson from your learning journey?')) {
+    deleteLesson(lessonId)
+  }
 }
 </script>
 
@@ -42,8 +46,16 @@ const selectLesson = (lesson) => {
   <div class="bg-gradient-to-b from-orange-200 via-orange-300 to-red-400 font-sans antialiased text-orange-900 min-h-screen">
     <LessonList
       :lessons="lessons"
-      @add-lesson="addLesson"
-      @select-lesson="selectLesson"
+      @add-lesson="openAddForm"
+      @edit-lesson="openEditForm"
+      @delete-lesson="handleDeleteLesson"
+    />
+
+    <LessonForm
+      v-if="showForm"
+      :lesson="editingLesson"
+      @close="closeForm"
+      @save="handleSaveLesson"
     />
   </div>
 </template>

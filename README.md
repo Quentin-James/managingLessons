@@ -1,25 +1,18 @@
-# managinglesson
+# My Learning Journey 🎓
 
-This template should help get you started developing with Vue 3 in Vite.
+A personal web application to track and organize your coding lessons and learning progress.
 
-## Recommended IDE Setup
+## Features ✨
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Track Your Lessons**: Add, edit, and remove coding lessons from your personal learning journey
+- **Organize by Difficulty**: Categorize lessons as Beginner, Intermediate, or Advanced
+- **Track Time**: Monitor how much time each lesson takes
+- **Beautiful UI**: Clean, modern interface with Tailwind CSS
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
 
-## Recommended Browser Setup
+## Getting Started 🚀
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+### Project Setup
 
 ```sh
 npm install
@@ -36,3 +29,48 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Usage 💡
+
+1. **Add a Lesson**: Click the "+ Add New Lesson" button to add a new lesson to your learning journey
+2. **Edit a Lesson**: Click the edit (pencil) icon on any lesson card to modify it
+3. **Delete a Lesson**: Click the delete (trash) icon to remove a lesson
+4. **View Details**: Each lesson card shows the title, description, duration, and difficulty level
+
+## Tech Stack 🛠️
+
+- **Vue 3**: Progressive JavaScript framework
+- **Vite**: Fast build tool and dev server
+- **Tailwind CSS v4**: Utility-first CSS framework
+- **Composition API**: Modern Vue development approach
+
+## Project Structure 📁
+
+```
+src/
+├── components/        # Vue components
+│   ├── LessonCard.vue    # Individual lesson card
+│   ├── LessonList.vue    # List of lessons
+│   └── LessonForm.vue    # Form to add/edit lessons
+├── composables/       # Reusable logic
+│   └── useLessons.js     # CRUD operations for lessons
+├── assets/           # CSS and static assets
+└── App.vue           # Main application component
+```
+
+## Roadmap 🗺️
+
+- [ ] Implement local storage persistence
+- [ ] Add note-taking module
+- [ ] Add filtering and sorting capabilities
+- [ ] Implement progress tracking
+- [ ] Add authentication and user management
+
+## Recommended IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vite.dev/config/).
+
