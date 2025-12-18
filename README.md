@@ -28,6 +28,14 @@ A personal web application to track and organize your coding lessons and learnin
 - **Code Snippets**: Optional code examples with language-specific syntax highlighting
 - **Search Functionality**: Real-time search by title, content, tags, or category
 
+### Authentication & User Management
+- **User Registration**: Create your personal account to start your learning journey
+- **Secure Login**: Login with username/email and password
+- **Multi-User Support**: Each user has their own separate lessons and notes
+- **Data Isolation**: User data stored with userId prefix in localStorage
+- **User Badge**: See your username in the header
+- **Easy Logout**: Logout button with confirmation
+
 ### UI/UX
 - **Tab Navigation**: Switch easily between Lessons and Notes
 - **Beautiful UI**: Clean, modern interface with Tailwind CSS

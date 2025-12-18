@@ -1,26 +1,57 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import LessonList from './components/LessonList.vue'
 import LessonForm from './components/LessonForm.vue'
 import NotesList from './components/NotesList.vue'
 import NoteForm from './components/NoteForm.vue'
+import ProgressTracker from './components/ProgressTracker.vue'
+import LoginForm from './components/LoginForm.vue'
 import { useLessons } from './composables/useLessons'
 import { useNotes } from './composables/useNotes'
+import { useAuth } from './composables/useAuth'
 
-// Lessons
-const { lessons, createLesson, updateLesson, deleteLesson, toggleCompleted } = useLessons()
+// Authentication
+const { currentUser, isAuthenticated, register, login, logout } = useAuth()
+const loginFormRef = ref(null)
+
+// Initialize data with user ID or default
+const userId = computed(() => currentUser.value?.id || 'default')
+const { lessons, createLesson, updateLesson, deleteLesson, toggleCompleted } = useLessons(userId.value)
+const { notes, createNote, updateNote, deleteNote, getCategories } = useNotes(userId.value)
+
 const showLessonForm = ref(false)
 const editingLesson = ref(null)
-
-// Notes
-const { notes, createNote, updateNote, deleteNote, getCategories } = useNotes()
 const showNoteForm = ref(false)
 const editingNote = ref(null)
-
-// Tab management
 const activeTab = ref('lessons')
 
-// Lesson handlers
+// Auth handlers
+const handleLogin = (credentials) => {
+  const result = login(credentials.usernameOrEmail, credentials.password)
+  if (!result.success && loginFormRef.value) {
+    loginFormRef.value.setError(result.error)
+  }
+}
+
+const handleRegister = (userData) => {
+  const result = register(userData.username, userData.email, userData.password)
+  if (!result.success && loginFormRef.value) {
+    loginFormRef.value.setError(result.error)
+  } else {
+    login(userData.username, userData.password)
+  }
+}
+
+const handleLogout = () => {
+  if (confirm('Are you sure you want to logout?')) {
+    logout()
+    activeTab.value = 'lessons'
+    // Reload page to reinitialize with default data
+    window.location.reload()
+  }
+}
+
+// ...existing lesson handlers code...
 const openAddLessonForm = () => {
   editingLesson.value = null
   showLessonForm.value = true
@@ -55,7 +86,7 @@ const handleToggleCompleted = (lessonId) => {
   toggleCompleted(lessonId)
 }
 
-// Note handlers
+// ...existing note handlers code...
 const openAddNoteForm = () => {
   editingNote.value = null
   showNoteForm.value = true
@@ -89,11 +120,36 @@ const handleDeleteNote = (noteId) => {
 
 <template>
   <div class="bg-gradient-to-b from-orange-200 via-orange-300 to-red-400 font-sans antialiased text-orange-900 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-      <!-- Header -->
-      <div class="mb-8 text-center">
+    <!-- Login Form (if not authenticated) -->
+    <LoginForm
+      v-if="!isAuthenticated"
+      ref="loginFormRef"
+      @login="handleLogin"
+      @register="handleRegister"
+    />
+
+    <!-- Main App (if authenticated) -->
+    <div v-else class="container mx-auto px-4 py-8">
+      <!-- Header with User Info and Logout -->
+      <div class="mb-8 text-center relative">
         <h1 class="text-5xl font-extrabold text-red-800 mb-4">My Learning Journey</h1>
         <p class="text-orange-700 font-medium">Track and organize your coding lessons and notes</p>
+
+        <!-- User Badge and Logout -->
+        <div class="absolute top-0 right-0 flex items-center gap-3">
+          <div class="bg-orange-50 bg-opacity-90 px-4 py-2 rounded-xl shadow-md">
+            <span class="text-sm font-medium text-orange-900">{{ currentUser?.username }}</span>
+          </div>
+          <button
+            @click="handleLogout"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl px-4 py-2 shadow-md hover:shadow-lg transition-all"
+            title="Logout"
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- Tabs -->

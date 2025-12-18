@@ -1,8 +1,8 @@
 import { ref, watch } from 'vue'
 
-const STORAGE_KEY = 'learning-journey-lessons'
+export function useLessons(userId = 'default') {
+  const STORAGE_KEY = `learning-journey-lessons-${userId}`
 
-export function useLessons() {
   const lessons = ref([])
   const nextId = ref(1)
 
