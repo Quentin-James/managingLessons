@@ -47,6 +47,8 @@ export function useNotes() {
       id: nextId.value++,
       title: noteData.title,
       content: noteData.content,
+      codeSnippet: noteData.codeSnippet || '',
+      codeLanguage: noteData.codeLanguage || 'javascript',
       tags: noteData.tags || [],
       category: noteData.category || '',
       timestamp: new Date().toISOString(),

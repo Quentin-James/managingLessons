@@ -4,9 +4,26 @@ A personal web application to track and organize your coding lessons and learnin
 
 ## Features ✨
 
+### Lessons Management
 - **Track Your Lessons**: Add, edit, and remove coding lessons from your personal learning journey
 - **Organize by Difficulty**: Categorize lessons as Beginner, Intermediate, or Advanced
 - **Track Time**: Monitor how much time each lesson takes
+- **localStorage Persistence**: All lessons are automatically saved
+
+### Notes with Integrated Code Editor
+- **Personal Notes**: Create detailed notes for your learning insights
+- **19 Programming Languages**: Full syntax highlighting support for:
+  - **Web/Frontend**: JavaScript, TypeScript, React (JSX), Angular, HTML, CSS, Vue, Sass/SCSS
+  - **Backend**: Python, Java, C#, PHP, Go, Rust
+  - **Systems**: C++
+  - **Data**: JSON, XML, SQL
+  - **Documentation**: Markdown
+- **Rich Metadata**: Add titles, content, categories, and tags to your notes
+- **Auto-Save**: Notes are automatically saved to localStorage
+- **Code Snippets**: Optional code examples with language-specific syntax highlighting
+
+### UI/UX
+- **Tab Navigation**: Switch easily between Lessons and Notes
 - **Beautiful UI**: Clean, modern interface with Tailwind CSS
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 
@@ -43,6 +60,8 @@ npm run build
 - **Vite**: Fast build tool and dev server
 - **Tailwind CSS v4**: Utility-first CSS framework
 - **Composition API**: Modern Vue development approach
+- **CodeMirror 6**: Advanced code editor with syntax highlighting for 19 languages
+- **localStorage**: Client-side data persistence
 
 ## Project Structure 📁
 
@@ -51,19 +70,26 @@ src/
 ├── components/        # Vue components
 │   ├── LessonCard.vue    # Individual lesson card
 │   ├── LessonList.vue    # List of lessons
-│   └── LessonForm.vue    # Form to add/edit lessons
+│   ├── LessonForm.vue    # Form to add/edit lessons
+│   ├── NoteCard.vue      # Individual note card (with code preview)
+│   ├── NotesList.vue     # List of notes
+│   ├── NoteForm.vue      # Form to add/edit notes
+│   └── CodeEditor.vue    # CodeMirror 6 editor (19 languages)
 ├── composables/       # Reusable logic
-│   └── useLessons.js     # CRUD operations for lessons
+│   ├── useLessons.js     # CRUD operations for lessons (with localStorage)
+│   └── useNotes.js       # CRUD operations for notes (with localStorage)
 ├── assets/           # CSS and static assets
-└── App.vue           # Main application component
+└── App.vue           # Main application with tab navigation
 ```
 
 ## Roadmap 🗺️
 
 - [x] Implement note-taking module with localStorage persistence
-- [ ] Implement local storage persistence for lessons
-- [ ] Add filtering and sorting capabilities
+- [x] Implement code editor with syntax highlighting in notes
+- [x] Implement local storage persistence for lessons
 - [ ] Implement progress tracking for lessons
+- [ ] Add "mark as done" functionality for lessons
+- [ ] Add filtering and sorting capabilities
 - [ ] Add authentication and user management
 - [ ] Export/import data functionality
 

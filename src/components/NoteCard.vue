@@ -28,6 +28,16 @@
       <p class="text-orange-700 line-clamp-3">{{ note.content }}</p>
     </div>
 
+    <div v-if="note.codeSnippet" class="mb-3 bg-gray-100 p-3 rounded-lg border border-gray-300">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-xs font-medium text-gray-600 uppercase">{{ note.codeLanguage || 'code' }}</span>
+        <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </div>
+      <pre class="text-xs text-gray-800 overflow-x-auto line-clamp-4"><code>{{ note.codeSnippet }}</code></pre>
+    </div>
+
     <div class="flex flex-wrap gap-2 mb-3" v-if="note.tags && note.tags.length > 0">
       <span
         v-for="tag in note.tags"

@@ -39,6 +39,14 @@
           ></textarea>
         </div>
 
+        <div>
+          <CodeEditor
+            v-model="formData.codeSnippet"
+            v-model:language="formData.codeLanguage"
+          />
+          <p class="mt-1 text-xs text-orange-700">Optional: Add code examples to your notes</p>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="category" class="block text-sm font-medium text-orange-800 mb-2">Category (optional)</label>
@@ -100,6 +108,7 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import CodeEditor from './CodeEditor.vue'
 
 const props = defineProps({
   note: {
@@ -119,6 +128,8 @@ const isEditing = ref(!!props.note)
 const formData = ref({
   title: '',
   content: '',
+  codeSnippet: '',
+  codeLanguage: 'javascript',
   category: '',
   tags: []
 })
@@ -131,6 +142,8 @@ watch(() => props.note, (newNote) => {
     formData.value = {
       title: newNote.title,
       content: newNote.content,
+      codeSnippet: newNote.codeSnippet || '',
+      codeLanguage: newNote.codeLanguage || 'javascript',
       category: newNote.category || '',
       tags: newNote.tags || []
     }
