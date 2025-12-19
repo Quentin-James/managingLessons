@@ -34,6 +34,7 @@
           v-for="note in filteredNotes"
           :key="note.id"
           :note="note"
+          @view-fullscreen="$emit('view-fullscreen', $event)"
           @edit="$emit('edit-note', $event)"
           @delete="$emit('delete-note', $event)"
         />
@@ -54,7 +55,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['add-note', 'edit-note', 'delete-note'])
+defineEmits(['add-note', 'view-fullscreen', 'edit-note', 'delete-note'])
 
 const searchQuery = ref('')
 

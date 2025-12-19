@@ -4,6 +4,16 @@
       <h3 class="text-2xl font-bold text-orange-900 flex-1">{{ note.title }}</h3>
       <div class="flex gap-2 ml-4">
         <button
+          @click.stop="$emit('view-fullscreen', note)"
+          class="p-2 text-orange-700 hover:text-orange-900 hover:bg-orange-200 rounded-lg transition-all"
+          aria-label="Open in fullscreen"
+          title="Open in fullscreen"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+        </button>
+        <button
           @click.stop="$emit('edit', note)"
           class="p-2 text-orange-700 hover:text-orange-900 hover:bg-orange-200 rounded-lg transition-all"
           aria-label="Edit note"
@@ -67,7 +77,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['edit', 'delete'])
+defineEmits(['edit', 'delete', 'view-fullscreen'])
 
 const formattedDate = computed(() => {
   const date = new Date(props.note.timestamp)

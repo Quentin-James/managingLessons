@@ -1,17 +1,43 @@
 <template>
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-6 z-50" @click.self="$emit('close')">
-    <div class="bg-orange-50 bg-opacity-95 rounded-2xl shadow-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" :class="isFullscreen ? 'p-0' : 'p-6'" @click.self="handleBackdropClick">
+    <div
+      class="bg-orange-50 bg-opacity-95 shadow-2xl p-8 w-full overflow-y-auto"
+      :class="isFullscreen ? 'max-w-none h-full rounded-none' : 'max-w-3xl max-h-[90vh] rounded-2xl'"
+      role="dialog"
+      aria-modal="true"
+    >
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-4xl font-bold text-orange-900">{{ isEditing ? 'Edit Note' : 'Create New Note' }}</h2>
-        <button
-          @click="$emit('close')"
-          class="text-orange-700 hover:text-orange-900 transition-colors"
-          aria-label="Close dialog"
-        >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <div>
+          <h2 class="text-4xl font-bold text-orange-900">{{ isEditing ? 'Edit Note' : 'Create New Note' }}</h2>
+          <p v-if="isFullscreen" class="text-xs text-orange-700 mt-1">
+            Press <kbd class="px-2 py-1 bg-orange-200 rounded text-orange-900 font-mono text-xs">ESC</kbd> to exit fullscreen or
+            <kbd class="px-2 py-1 bg-orange-200 rounded text-orange-900 font-mono text-xs">F11</kbd> to toggle
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            @click="toggleFullscreen"
+            class="text-orange-700 hover:text-orange-900 transition-colors p-2 hover:bg-orange-200 rounded-lg"
+            :aria-label="isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'"
+            :title="isFullscreen ? 'Exit fullscreen (ESC)' : 'Enter fullscreen (F11)'"
+          >
+            <svg v-if="!isFullscreen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+            <svg v-else class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
+            </svg>
+          </button>
+          <button
+            @click="$emit('close')"
+            class="text-orange-700 hover:text-orange-900 transition-colors p-2 hover:bg-orange-200 rounded-lg"
+            aria-label="Close dialog"
+          >
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <form @submit.prevent="handleSubmit" class="space-y-6">
@@ -33,7 +59,7 @@
             id="content"
             v-model="formData.content"
             required
-            rows="8"
+            :rows="isFullscreen ? 20 : 8"
             class="mt-1 block w-full px-4 py-2 border border-orange-200 rounded-xl shadow-sm focus:ring-orange-400 focus:border-orange-500 bg-white"
             placeholder="Write your notes here..."
           ></textarea>
@@ -43,6 +69,7 @@
           <CodeEditor
             v-model="formData.codeSnippet"
             v-model:language="formData.codeLanguage"
+            :fullscreen="isFullscreen"
           />
           <p class="mt-1 text-xs text-orange-700">Optional: Add code examples to your notes</p>
         </div>
@@ -107,7 +134,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import CodeEditor from './CodeEditor.vue'
 
 const props = defineProps({
@@ -124,6 +151,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'save'])
 
 const isEditing = ref(!!props.note)
+const isFullscreen = ref(false)
 
 const formData = ref({
   title: '',
@@ -135,6 +163,41 @@ const formData = ref({
 })
 
 const tagsInput = ref('')
+
+const toggleFullscreen = () => {
+  isFullscreen.value = !isFullscreen.value
+}
+
+const handleBackdropClick = () => {
+  if (!isFullscreen.value) {
+    emit('close')
+  }
+}
+
+const handleKeyDown = (event) => {
+  // ESC key - exit fullscreen or close modal
+  if (event.key === 'Escape') {
+    if (isFullscreen.value) {
+      event.preventDefault()
+      isFullscreen.value = false
+    } else {
+      emit('close')
+    }
+  }
+  // F11 key - toggle fullscreen
+  if (event.key === 'F11') {
+    event.preventDefault()
+    toggleFullscreen()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyDown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+})
 
 // Initialize form data if editing
 watch(() => props.note, (newNote) => {

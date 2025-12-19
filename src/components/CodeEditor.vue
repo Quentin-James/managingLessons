@@ -60,6 +60,10 @@ const props = defineProps({
   language: {
     type: String,
     default: 'javascript'
+  },
+  fullscreen: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -110,7 +114,7 @@ const createEditor = () => {
           border: 'none'
         },
         '.cm-content': {
-          minHeight: '150px',
+          minHeight: props.fullscreen ? '400px' : '150px',
           fontFamily: 'monospace'
         },
         '.cm-scroller': {
@@ -149,7 +153,7 @@ const updateLanguage = () => {
             border: 'none'
           },
           '.cm-content': {
-            minHeight: '150px',
+            minHeight: props.fullscreen ? '400px' : '150px',
             fontFamily: 'monospace'
           },
           '.cm-scroller': {
@@ -181,6 +185,45 @@ watch(() => props.modelValue, (newValue) => {
 watch(() => props.language, (newLanguage) => {
   selectedLanguage.value = newLanguage
   updateLanguage()
+})
+
+watch(() => props.fullscreen, () => {
+  // Recreate editor with new height when fullscreen mode changes
+  if (editorView) {
+    const currentDoc = editorView.state.doc.toString()
+    editorView.destroy()
+
+    const newState = EditorState.create({
+      doc: currentDoc,
+      extensions: [
+        basicSetup,
+        languageExtensions[selectedLanguage.value],
+        EditorView.updateListener.of((update) => {
+          if (update.docChanged) {
+            emit('update:modelValue', update.state.doc.toString())
+          }
+        }),
+        EditorView.theme({
+          '&': {
+            fontSize: '14px',
+            border: 'none'
+          },
+          '.cm-content': {
+            minHeight: props.fullscreen ? '400px' : '150px',
+            fontFamily: 'monospace'
+          },
+          '.cm-scroller': {
+            overflow: 'auto'
+          }
+        })
+      ]
+    })
+
+    editorView = new EditorView({
+      state: newState,
+      parent: editorRef.value
+    })
+  }
 })
 
 onMounted(() => {

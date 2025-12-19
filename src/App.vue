@@ -4,6 +4,7 @@ import LessonList from './components/LessonList.vue'
 import LessonForm from './components/LessonForm.vue'
 import NotesList from './components/NotesList.vue'
 import NoteForm from './components/NoteForm.vue'
+import NoteViewer from './components/NoteViewer.vue'
 import ProgressTracker from './components/ProgressTracker.vue'
 import StatisticsPage from './components/StatisticsPage.vue'
 import LoginForm from './components/LoginForm.vue'
@@ -24,6 +25,8 @@ const showLessonForm = ref(false)
 const editingLesson = ref(null)
 const showNoteForm = ref(false)
 const editingNote = ref(null)
+const viewingNote = ref(null)
+const viewingNoteFullscreen = ref(false)
 const activeTab = ref('lessons')
 
 // Auth handlers
@@ -90,6 +93,23 @@ const handleToggleCompleted = (lessonId) => {
 // ...existing note handlers code...
 const openAddNoteForm = () => {
   editingNote.value = null
+  showNoteForm.value = true
+}
+
+const openViewNoteFullscreen = (note) => {
+  viewingNote.value = note
+  viewingNoteFullscreen.value = true
+}
+
+const closeViewNote = () => {
+  viewingNote.value = null
+  viewingNoteFullscreen.value = false
+}
+
+const openEditNoteFromViewer = (note) => {
+  viewingNote.value = null
+  viewingNoteFullscreen.value = false
+  editingNote.value = note
   showNoteForm.value = true
 }
 
@@ -209,6 +229,7 @@ const handleDeleteNote = (noteId) => {
         <NotesList
           :notes="notes"
           @add-note="openAddNoteForm"
+          @view-fullscreen="openViewNoteFullscreen"
           @edit-note="openEditNoteForm"
           @delete-note="handleDeleteNote"
         />
@@ -228,6 +249,13 @@ const handleDeleteNote = (noteId) => {
       :lesson="editingLesson"
       @close="closeLessonForm"
       @save="handleSaveLesson"
+    />
+
+    <NoteViewer
+      v-if="viewingNote"
+      :note="viewingNote"
+      @close="closeViewNote"
+      @edit="openEditNoteFromViewer"
     />
 
     <NoteForm
