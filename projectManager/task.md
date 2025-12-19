@@ -13,7 +13,10 @@ This document tracks all development tasks for the My Learning Journey applicati
 - [X] Implement lesson search and notes search, plus put in a reserved place the lesson done — Created SearchBar component, added search functionality to LessonList and NotesList with real-time filtering by title, description, difficulty, tags, and category. Separated active and completed lessons into distinct sections with counters. (Completed 2025-12-18)
 - [X] Implement progress tracking for lessons — Created ProgressTracker component with overall completion percentage, statistics cards (total, completed, active, total time), and difficulty breakdown with visual progress bars. Integrated into Lessons tab. (Completed 2025-12-18)
 - [X] Add authentication and user management — Created useAuth composable with register/login/logout functionality, LoginForm component with toggle between login and register modes, updated useLessons and useNotes to store data per user (userId prefix in localStorage keys), added user badge and logout button in header, protected app with authentication guard. Users can now have separate learning journeys. (Completed 2025-12-18)
+- [X] Learning progress in an other page with charts and statistics — Created StatisticsPage component with comprehensive visualizations using Chart.js and vue-chartjs. Features include: overall stats cards (completion rate, time invested, average duration, notes count), multiple charts (completion status doughnut, difficulty distribution bar chart, time distribution pie chart, completion timeline line chart), recent completions timeline, notes overview by category, and AI-like insights & recommendations based on user's learning patterns. Integrated as a new "Statistics" tab in the main app navigation. (Completed 2025-12-19)
 
+## To Do
+- [ ] Implement the possibility to open the note editor in full screen.
 
 
 

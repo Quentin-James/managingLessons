@@ -5,6 +5,7 @@ import LessonForm from './components/LessonForm.vue'
 import NotesList from './components/NotesList.vue'
 import NoteForm from './components/NoteForm.vue'
 import ProgressTracker from './components/ProgressTracker.vue'
+import StatisticsPage from './components/StatisticsPage.vue'
 import LoginForm from './components/LoginForm.vue'
 import { useLessons } from './composables/useLessons'
 import { useNotes } from './composables/useNotes'
@@ -176,6 +177,17 @@ const handleDeleteNote = (noteId) => {
         >
           Notes
         </button>
+        <button
+          @click="activeTab = 'statistics'"
+          :class="[
+            'px-6 py-3 rounded-xl font-bold shadow-md transition-all',
+            activeTab === 'statistics'
+              ? 'bg-orange-500 text-orange-50 shadow-lg'
+              : 'bg-orange-50 text-orange-900 hover:bg-orange-100'
+          ]"
+        >
+          Statistics
+        </button>
       </div>
 
       <!-- Content -->
@@ -199,6 +211,13 @@ const handleDeleteNote = (noteId) => {
           @add-note="openAddNoteForm"
           @edit-note="openEditNoteForm"
           @delete-note="handleDeleteNote"
+        />
+      </div>
+
+      <div v-show="activeTab === 'statistics'">
+        <StatisticsPage
+          :lessons="lessons"
+          :notes="notes"
         />
       </div>
     </div>
